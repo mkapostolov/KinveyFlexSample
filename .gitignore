@@ -1,0 +1,6 @@
+node_modules
+.kinvey
+.projectile
+.DS_Store
+runKinvey.sh
+output.log
