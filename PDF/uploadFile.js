@@ -1,40 +1,40 @@
-const request = require("request-promise-native"); // Using request library with support for Promises
+const request = require('request-promise-native'); // Using request library with support for Promises
 
 function saveToKinvey(url, authorization, fileMetadata) {
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     Authorization: authorization,
-    "X-Kinvey-Content-Type": fileMetadata.mimeType
+    'X-Kinvey-Content-Type': fileMetadata.mimeType
   };
 
   return request({
     url,
-    method: "POST",
+    method: 'POST',
     headers: headers,
     body: JSON.stringify(fileMetadata)
   });
 }
 
 function saveToGCS(url, mimeType, size, requiredHeaders, fileBuffer) {
-  requiredHeaders["Content-Lenght"] = size;
-  requiredHeaders["Content-Type"] = mimeType;
+  requiredHeaders['Content-Lenght'] = size;
+  requiredHeaders['Content-Type'] = mimeType;
 
   return request({
     url,
-    method: "PUT",
+    method: 'PUT',
     headers: requiredHeaders,
     body: fileBuffer
   });
 }
 
-function getFileUrl(url, fileId, authorization) {
+function getFileURL(url, fileId, authorization) {
   const headers = {
     Authorization: authorization
   };
 
   return request({
-    url: `url + "/" + fileId`,
-    method: "GET",
+    url: url + '/' + fileId,
+    method: 'GET',
     headers: headers
   });
 }

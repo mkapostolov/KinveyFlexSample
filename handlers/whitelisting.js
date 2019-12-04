@@ -1,8 +1,8 @@
-const axios = require("axios");
+const axios = require('axios');
 
 module.exports.whitelistingFindIP = (context, complete, modules) => {
   axios
-    .get("https://canihazip.com/s")
+    .get('https://canihazip.com/s')
     .then(response =>
       complete()
         .setBody({ IP: response.data })
