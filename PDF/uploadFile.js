@@ -39,21 +39,18 @@ function getFileURL(url, fileId, authorization) {
   });
 }
 
-module.exports.uploadFile = (file, fileMetadata, url, authorization) => {
-  let fileId;
+module.exports.uploadFile = async (file, fileMetadata, url, authorization) => {
   // Return a promise with the response from the upload
-  return saveToKinvey(url, authorization, fileMetadata)
-    .then(kinveyResponse => {
-      const res = JSON.parse(kinveyResponse);
-      fileId = res._id;
+  try {
+    const metadata = await saveToKinvey(url, authorization, fileMetadata);
+    const { _id, _uploadURL, mimeType, size, _requiredHeaders } = JSON.parse(
+      metadata
+    );
 
-      return saveToGCS(
-        res._uploadURL,
-        res.mimeType,
-        res.size,
-        res._requiredHeaders,
-        file
-      );
-    })
-    .then(() => getFileURL(url, fileId, authorization));
+    await saveToGCS(_uploadURL, mimeType, size, _requiredHeaders, file);
+
+    return getFileURL(url, _id, authorization);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
