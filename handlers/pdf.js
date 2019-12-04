@@ -1,5 +1,5 @@
-const { uploadFile } = require('../PDF/uploadFile');
-const { generatePDF } = require('../PDF/generatePDF');
+const { uploadFile } = require('../helpers/uploadFile');
+const { generatePDF } = require('../helpers/generatePDF');
 
 module.exports.uploadPDF = async (context, complete, modules) => {
   const host = 'https://baas.kinvey.com';
